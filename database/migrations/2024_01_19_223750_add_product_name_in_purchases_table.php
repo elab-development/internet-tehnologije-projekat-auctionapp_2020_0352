@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchases', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('auction_id');
-            $table->foreignId('user_id');
-            $table->unsignedInteger('price');
+        Schema::table('purchases', function (Blueprint $table) {
+            $table->string('product_name')->after('auction_id');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchases');
+        Schema::table('purchases', function (Blueprint $table) {
+            //
+        });
     }
 };
