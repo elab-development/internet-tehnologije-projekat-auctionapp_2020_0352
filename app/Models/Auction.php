@@ -8,4 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Auction extends Model
 {
     use HasFactory;
+
+    protected $fillable=[
+        'user_id',
+        'product_name',
+        'category_id',
+        'description',
+        'start_price',
+    ];
+
+    public function userOwner(){
+        return $this->belongsTo(User::class);
+    }
+    public function highestBidder(){
+        return $this->belongsTo(User::class,'user_id','current_bidder');
+    }
+    public function category(){
+        return this->belongsTo(Category::class,'category_id');
+    }
 }

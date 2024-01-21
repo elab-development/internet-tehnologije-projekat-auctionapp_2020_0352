@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamp('start');
             $table->timestamp('end')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->timestamps();
         });
     }
 

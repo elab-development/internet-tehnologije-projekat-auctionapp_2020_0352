@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('username')->after('id');
             $table->string('surname')->after('name');
             $table->string('phone_number')->after('email_verified_at');
-            $table->string('balance')->after('phone_number');
+            $table->string('balance')->after('phone_number')->default(0);
             
         });
     }

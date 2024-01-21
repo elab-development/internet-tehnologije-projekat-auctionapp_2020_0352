@@ -18,8 +18,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'username',
         'name',
+        'surname',
         'email',
+        'phone_number',
         'password',
     ];
 
@@ -30,6 +33,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'balance',
         'remember_token',
     ];
 
@@ -42,4 +46,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function auctions(){
+        return $this->hasMany(Auction::class,'user_id');
+    }
+    public function highesBiddedAt(){
+       return $this->hasMany(Autcion::class,'current_bidder');
+    }
 }

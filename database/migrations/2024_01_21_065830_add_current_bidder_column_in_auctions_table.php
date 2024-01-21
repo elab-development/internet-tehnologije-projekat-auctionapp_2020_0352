@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('category_name');
-            $table->string('description');
-            $table->timestamps();
+        Schema::table('auctions', function (Blueprint $table) {
+            $table->foreignId('current_bidder')->nullable()->after('end');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::table('auctions', function (Blueprint $table) {
+            dropColumn('current_bidder');
+        });
     }
 };
