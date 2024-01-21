@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Auction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class AuctionController extends Controller
 {
@@ -15,13 +17,17 @@ class AuctionController extends Controller
         $userAuctions = auth()->user()->auctions()->get();
         return response()->json($userAuctions);
     }
+    public function indexAll(){
+        $auctions=Auction::all();
+        return response()->json($auctions);
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -29,7 +35,24 @@ class AuctionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'product_name'=>'required|string|max:100',
+            'category_id'=>'required',
+            'description'=>'required|string|max:255',
+            'start_price'=>'required'
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors());
+        }
+        $auction=Auction::create([
+            'user_id'=> auth()->user()->id,
+            'product_name'=>$request->product_name,
+            'category_id'=>$request->category_id,
+            'description'=>$request->description,
+            'start_price'=>$request->start_price,
+            'current_price'=>$request->start_price
+        ]);
+        return response()->json('Auction created successfully.');
     }
 
     /**
@@ -53,14 +76,30 @@ class AuctionController extends Controller
      */
     public function update(Request $request, Auction $auction)
     {
-        //
+        $validator=Validator::make($request->all(),[
+            'user_id'=>'required',
+            'product_name'=>'required|string|max:100',
+            'category_id'=>'required',
+            'description'=>'required|string|max:255',
+            'start_price'=>'required'
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors());
+            $auction->user_id=$request->user_id;
+            $auction->product_name=$request->product_name;
+            $auction->category_id=$request->category_id;
+            $auction->description=$request->description;
+            $auction->start_price=$request->start_price;
+            $auction->save();
+            return response()->json('Post updated successfully.');
     }
-
+}
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Auction $auction)
     {
-        //
+        $auction->delete();
+        return response()->json('Post delete successfully');
     }
 }

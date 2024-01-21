@@ -15,6 +15,7 @@ class Auction extends Model
         'category_id',
         'description',
         'start_price',
+        'current_price'
     ];
 
     public function userOwner(){

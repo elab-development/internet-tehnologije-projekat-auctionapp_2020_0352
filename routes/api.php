@@ -32,8 +32,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {
         return auth()->user();
     });
-    Route::resource('auctions', AuctionController::class)->only(['update','store','destroy']);
-    Route::resource('/myauctions', AuctionController::class);
+    Route::resource('auctions', AuctionController::class)->only(['create','update','store','destroy']);
+    Route::get('/allAuctions',[AuctionController::class,'indexAll']);
+    Route::resource('/myauctions',AuctionController::class);
     // API route for logout user
     Route::post('/logout', [AuthController::class, 'logout']);
 });
