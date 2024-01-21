@@ -41,7 +41,10 @@ class AuthController extends Controller
         $token=$user->createToken('auth_token')->plainTextToken;
         return response()->json(['message'=>'Hi '.$user->name.',welcome to home','access_token'=>$token,'token_type'=>'Bearer',]);
     }
-    public function logout(){
-        Auth::logout();
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' =>'Successfully logged out']);
     }
+    
 }

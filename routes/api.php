@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserAuctionController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\AuctionController;
 
 
 /*
@@ -32,9 +33,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return auth()->user();
     });
     Route::resource('auctions', AuctionController::class)->only(['update','store','destroy']);
-    Route::get('/my_auctions',function(Request $request){
-        return response()->json(auth()->user()->auctions());
-    });
+    Route::resource('/myauctions', AuctionController::class);
     // API route for logout user
     Route::post('/logout', [AuthController::class, 'logout']);
 });
