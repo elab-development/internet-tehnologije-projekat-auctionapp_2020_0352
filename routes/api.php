@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserAuctionController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\AuctionController;
+use App\Http\Controllers\BidController;
 
 
 /*
@@ -36,6 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/allAuctions',[AuctionController::class,'indexAll']);
     Route::resource('/myauctions',AuctionController::class);
     Route::post('/increase-balance', [UserController::class, 'increaseBalance']);
+    Route::post('/auctions/bid', [BidController::class, 'placeBid']);
     // API route for logout user
     Route::post('/logout', [AuthController::class, 'logout']);
 });

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('auction_id');
             $table->foreignId('user_id');
-            $table->unsignedInteger('price');
+            $table->decimal('price',10,2);
             $table->timestamps();
         });
     }

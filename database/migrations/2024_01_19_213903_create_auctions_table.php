@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string('description');
             $table->decimal('start_price', 10, 2)->nullable();
             $table->decimal('current_price', 10, 2)->nullable();
-            $table->timestamp('start');
-            $table->timestamp('end')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->timestamp('start')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('end')->default(DB::raw('DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 2 MINUTE)'));
             $table->timestamps();
         });
+        
     }
 
     /**

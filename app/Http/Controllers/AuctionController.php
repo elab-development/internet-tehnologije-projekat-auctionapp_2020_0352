@@ -50,7 +50,9 @@ class AuctionController extends Controller
             'category_id'=>$request->category_id,
             'description'=>$request->description,
             'start_price'=>$request->start_price,
-            'current_price'=>$request->start_price
+            'current_price'=>$request->start_price,
+            'start'=>now(),
+            'end'=>now()->addDays(3)
         ]);
         return response()->json('Auction created successfully.');
     }
