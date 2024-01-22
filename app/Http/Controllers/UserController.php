@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class UserController extends Controller
@@ -64,5 +67,23 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+    public function increaseBalance(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+        ]);
+
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'U have to be loged in to make a deposit.'], 401);
+        }
+
+        $amount = $request->amount;
+        $user->balance += $amount;
+        $user->save();
+
+        return response()->json(['message' => 'Successfully made deposit.', 'new_balance' => $user->balance]);
     }
 }
