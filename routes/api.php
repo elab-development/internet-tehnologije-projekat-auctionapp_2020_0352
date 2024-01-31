@@ -38,6 +38,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('/myauctions',AuctionController::class);
     Route::post('/increase-balance', [UserController::class, 'increaseBalance']);
     Route::post('/auctions/bid', [BidController::class, 'placeBid']);
-    // API route for logout user
     Route::post('/logout', [AuthController::class, 'logout']);
 });

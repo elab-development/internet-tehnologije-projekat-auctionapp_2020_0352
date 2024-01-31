@@ -16,11 +16,15 @@ class CloseAuctions extends Command
         $expiredAuctions = Auction::whereDate('end', '<=', now()->toDateString())->get();
 
         foreach ($expiredAuctions as $auction) {
-            Purchases::create([
-                'auction_id' => $auction->id,
-                'user_id' => $auction->current_bidder,
-                'price' => $auction->current_price*0.95,
-            ]);
+            if($auction->current_bidder){
+                Purchases::create([
+                    'auction_id' => $auction->id,
+                    'user_id' => $auction->current_bidder,
+                    'product_name'=>$auction->product_name,
+                    'price' => $auction->current_price/1.05,
+                ]);
+            }
+
 
             $auction->delete();
         }

@@ -28,10 +28,5 @@ class Auction extends Model
     public function category(){
         return this->belongsTo(Category::class,'category_id');
     }
-    public function getIsActiveAttribute(){
-        $currentTime = Carbon::now();
-        $endTime = Carbon::parse($this->end);
     
-        return $currentTime->lte($endTime);   
-    }
 }
