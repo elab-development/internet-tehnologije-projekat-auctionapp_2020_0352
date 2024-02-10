@@ -6,6 +6,7 @@ use App\Models\Auction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\AuctionResource;
 
 class AuctionController extends Controller
 {
@@ -17,9 +18,10 @@ class AuctionController extends Controller
         $userAuctions = auth()->user()->auctions()->get();
         return response()->json($userAuctions);
     }
-    public function indexAll(){
+    public function indexAll()
+    {
         $auctions=Auction::all();
-        return response()->json($auctions);
+       return new AuctionResource($auctions);
     }
 
     /**
@@ -39,6 +41,7 @@ class AuctionController extends Controller
             'product_name'=>'required|string|max:100',
             'category_id'=>'required',
             'description'=>'required|string|max:255',
+            'image_path'=>'string|max:255',
             'start_price'=>'required'
         ]);
         if($validator->fails()){
@@ -51,6 +54,7 @@ class AuctionController extends Controller
             'description'=>$request->description,
             'start_price'=>$request->start_price,
             'current_price'=>$request->start_price,
+            'image_path'=>$request->image_path,
             'start'=>now(),
             'end'=>now()->addDays(3)
         ]);

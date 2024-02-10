@@ -24,17 +24,17 @@ use App\Http\Controllers\BidController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::resource('categories',CategoryController::class);
+    Route::resource('categories',CategoryController::class);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/users/{id}/auctions',[UserAuctionController::class,'index'])->name('users.auctions.index');
+Route::get('/allAuctions',[AuctionController::class,'indexAll']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {
         return auth()->user();
     });
     Route::resource('auctions', AuctionController::class)->only(['update','store','destroy']);
-    Route::get('/allAuctions',[AuctionController::class,'indexAll']);
     Route::resource('/myauctions',AuctionController::class);
     Route::post('/increase-balance', [UserController::class, 'increaseBalance']);
     Route::post('/auctions/bid', [BidController::class, 'placeBid']);
