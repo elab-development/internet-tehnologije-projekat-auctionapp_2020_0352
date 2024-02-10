@@ -24,8 +24,6 @@ class CloseAuctions extends Command
                     'price' => $auction->current_price/1.05,
                 ]);
             }
-
-
             $auction->delete();
         }
     }

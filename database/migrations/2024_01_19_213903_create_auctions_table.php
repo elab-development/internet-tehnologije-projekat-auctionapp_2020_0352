@@ -18,9 +18,9 @@ return new class extends Migration
             $table->foreignId('category_id');
             $table->string('description');
             $table->decimal('start_price', 10, 2)->nullable();
-            $table->decimal('current_price', 10, 2)->nullable();
+            $table->decimal('current_price', 10, 2)->default(DB::raw('start_price'));
             $table->timestamp('start')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('end')->default(DB::raw('DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 2 MINUTE)'));
+            $table->timestamp('end')->default(DB::raw('DATE_ADD(CURRENT_TIMESTAMP, INTERVAL 2 DAY)'));
             $table->timestamps();
         });
         
