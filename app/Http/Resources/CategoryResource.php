@@ -12,13 +12,9 @@ class CategoryResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    public static $wrap = 'categories';
     public function toArray(Request $request): array
     {
-       return [
-        'id'=>$this->resource->id,
-        'category_name'=>$this->resource->category_name,
-        'description'=>$this->resource->description,
-
-       ];
+        return parent::toArray($request);
     }
 }
