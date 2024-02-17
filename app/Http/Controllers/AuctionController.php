@@ -23,13 +23,18 @@ class AuctionController extends Controller
         $auctions=Auction::all();
        return new AuctionResource($auctions);
     }
+    public function indexByCategory($category_id)
+    {
+        $auctions = Auction::where('category_id', $category_id)->get();
+        return response()->json(['auctions' => $auctions]);
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -64,10 +69,16 @@ class AuctionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Auction $auction)
-    {
-        //
+    public function show($id)
+{
+    $auction = Auction::find($id);
+
+    if (!$auction) {
+        return response()->json(['error' => 'Auction not found'], 404);
     }
+
+    return new AuctionResource($auction);
+}
 
     /**
      * Show the form for editing the specified resource.

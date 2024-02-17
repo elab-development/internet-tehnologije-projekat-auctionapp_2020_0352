@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users=User::all(); 
+        $users=User::all();
         return response()->json($users);
     }
 
@@ -40,10 +40,16 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($id)
     {
-        return new UserResource($user);   
-    }   
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        return response()->json($user);
+    }
 
     /**
      * Show the form for editing the specified resource.
