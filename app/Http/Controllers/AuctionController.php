@@ -92,25 +92,29 @@ class AuctionController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Auction $auction)
-    {
-        $validator=Validator::make($request->all(),[
-            'user_id'=>'required',
-            'product_name'=>'required|string|max:100',
-            'category_id'=>'required',
-            'description'=>'required|string|max:255',
-            'start_price'=>'required'
-        ]);
-        if($validator->fails()){
-            return response()->json($validator->errors());
-            $auction->user_id=$request->user_id;
-            $auction->product_name=$request->product_name;
-            $auction->category_id=$request->category_id;
-            $auction->description=$request->description;
-            $auction->start_price=$request->start_price;
-            $auction->save();
-            return response()->json('Post updated successfully.');
+{
+    $validator=Validator::make($request->all(),[
+        'user_id'=>'required',
+        'product_name'=>'required|string|max:100',
+        'category_id'=>'required',
+        'description'=>'required|string|max:255',
+        'start_price'=>'required'
+    ]);
+    if($validator->fails()){
+        return response()->json($validator->errors());
     }
+
+    $auction->user_id = $request->user_id;
+    $auction->product_name = $request->product_name;
+    $auction->category_id = $request->category_id;
+    $auction->description = $request->description;
+    $auction->start_price = $request->start_price;
+    $auction->save();
+
+    return response()->json('Auction updated successfully.');
 }
+
+
     /**
      * Remove the specified resource from storage.
      */

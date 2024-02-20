@@ -21,7 +21,7 @@ class BidController extends Controller
 
         $auctionId = $request->auction_id;
         $auction = Auction::find($auctionId);
-       
+
         $user = Auth::user();
         $userBefore=User::find($auction->current_bidder);
         if (!$user) {
@@ -50,5 +50,5 @@ class BidController extends Controller
 
         return response()->json(['message' => 'Bid made successfully','new_balance' => $user->balance]);
     }
-    
+
 }
