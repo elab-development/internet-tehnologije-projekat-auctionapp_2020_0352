@@ -92,4 +92,24 @@ class UserController extends Controller
 
         return response()->json(['message' => 'Successfully made deposit.', 'new_balance' => $user->balance]);
     }
+
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,'.$user->id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
+            'phone_number' => 'nullable|string|max:20',
+        ]);
+
+        $user->update($request->all());
+
+        return response()->json(['message' => 'Profile updated successfully', 'user' => $user]);
+    }
+
+
+
+
 }

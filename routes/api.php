@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {
         return auth()->user();
     });
+    Route::put('/profile', [UserController::class, 'updateProfile']);
     Route::resource('auctions', AuctionController::class)->only(['update','store','destroy']);
     Route::resource('/myauctions',AuctionController::class);
     Route::post('/increase-balance', [UserController::class, 'increaseBalance']);
