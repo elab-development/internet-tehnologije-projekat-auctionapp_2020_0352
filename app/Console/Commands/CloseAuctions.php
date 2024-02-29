@@ -13,7 +13,8 @@ class CloseAuctions extends Command
 
     public function handle()
     {
-        $expiredAuctions = Auction::whereDate('end', '<=', now()->toDateString())->get();
+        $expiredAuctions = Auction::whereRaw('end <= NOW()')->get();
+
 
         foreach ($expiredAuctions as $auction) {
             if($auction->current_bidder){
