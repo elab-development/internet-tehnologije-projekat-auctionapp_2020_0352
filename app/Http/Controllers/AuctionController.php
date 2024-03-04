@@ -20,9 +20,21 @@ class AuctionController extends Controller
     }
     public function indexAll()
     {
-        $auctions=Auction::all();
-       return new AuctionResource($auctions);
+        $auctions = Auction::all();
+    return new AuctionResource($auctions);
     }
+    public function indexFiltered()
+    {
+        // Dobijamo trenutno ulogovanog korisnika
+        $user = auth()->user();
+
+        // Dobijamo aukcije koje nije kreirao trenutno ulogovani korisnik
+        $auctions = Auction::where('user_id', '!=', $user->id)->get();
+
+        return new AuctionResource($auctions);
+    }
+
+
     public function indexByCategory($category_id)
     {
         $auctions = Auction::where('category_id', $category_id)->get();
@@ -52,18 +64,21 @@ class AuctionController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors());
         }
-        $auction=Auction::create([
-            'user_id'=> auth()->user()->id,
-            'product_name'=>$request->product_name,
-            'category_id'=>$request->category_id,
-            'description'=>$request->description,
-            'start_price'=>$request->start_price,
-            'current_price'=>$request->start_price,
-            'image_path'=>$request->image_path,
-            'start'=>now(),
-            'end'=>now()->addDays(3)
-        ]);
-        return response()->json('Auction created successfully.');
+        else{
+            $auction=Auction::create([
+                'user_id'=> auth()->user()->id,
+                'product_name'=>$request->product_name,
+                'category_id'=>$request->category_id,
+                'description'=>$request->description,
+                'start_price'=>$request->start_price,
+                'current_price'=>$request->start_price,
+                'image_path'=>$request->image_path,
+                'start'=>now(),
+                'end'=>now()->addDays(3)
+            ]);
+            return response()->json('Auction created successfully.');
+        }
+
     }
 
     /**

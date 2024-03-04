@@ -31,12 +31,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/users/{id}/auctions',[UserAuctionController::class,'index'])->name('users.auctions.index');
-Route::get('/allAuctions',[AuctionController::class,'indexAll']);
+Route::get('/allAuctionsUnprotected', [AuctionController::class, 'indexAll']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {
         return auth()->user();
     });
+    Route::get('/allAuctions', [AuctionController::class, 'indexFiltered']);
     Route::put('/profile', [UserController::class, 'updateProfile']);
     Route::resource('auctions', AuctionController::class)->only(['update','store','destroy']);
     Route::resource('/myauctions',AuctionController::class);
