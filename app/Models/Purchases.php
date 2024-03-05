@@ -10,8 +10,9 @@ class Purchases extends Model
     use HasFactory;
     protected $fillable = [
         'auction_id',
+        'owner_id',
         'product_name',
-        'user_id',
+        'buyer_id',
         'price',
     ];
 }

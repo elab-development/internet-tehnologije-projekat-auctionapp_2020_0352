@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('owner_id');
             $table->foreignId('auction_id');
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('buyer_id')->nullable();
             $table->decimal('price',10,2);
             $table->timestamps();
         });

@@ -8,6 +8,8 @@ use App\Http\Controllers\UserAuctionController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\AuctionController;
 use App\Http\Controllers\BidController;
+use App\Http\Controllers\PurchasesController;
+
 
 
 /*
@@ -37,6 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {
         return auth()->user();
     });
+    Route::get('/purchases', [PurchasesController::class,'index']);
     Route::get('/allAuctions', [AuctionController::class, 'indexFiltered']);
     Route::put('/profile', [UserController::class, 'updateProfile']);
     Route::resource('auctions', AuctionController::class)->only(['update','store','destroy']);

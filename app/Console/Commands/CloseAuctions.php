@@ -17,14 +17,13 @@ class CloseAuctions extends Command
 
 
         foreach ($expiredAuctions as $auction) {
-            if($auction->current_bidder){
                 Purchases::create([
+                    'owner_id'=>$auction->user_id,
                     'auction_id' => $auction->id,
-                    'user_id' => $auction->current_bidder,
+                    'buyer_id' => $auction->current_bidder,
                     'product_name'=>$auction->product_name,
                     'price' => $auction->current_price/1.05,
                 ]);
-            }
             $auction->delete();
         }
     }
