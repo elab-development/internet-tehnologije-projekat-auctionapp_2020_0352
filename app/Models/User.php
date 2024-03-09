@@ -50,7 +50,7 @@ class User extends Authenticatable
         return $this->hasMany(Auction::class,'user_id');
     }
     public function purchases(){
-        return $this->hasMany(Purchases::class,'user_id');
+        return $this->hasMany(Purchases::class,'owner_id');
     }
     public function highesBiddedAt(){
        return $this->hasMany(Autcion::class,'current_bidder');

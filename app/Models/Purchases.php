@@ -15,4 +15,8 @@ class Purchases extends Model
         'buyer_id',
         'price',
     ];
+
+    public function userOwner(){
+        return $this->belongsTo(User::class);
+    }
 }
