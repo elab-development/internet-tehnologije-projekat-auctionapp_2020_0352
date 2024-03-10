@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {
         return auth()->user();
     });
+    Route::get('/boughtAuctions',[PurchasesController::class,'indexBought']);
     Route::get('/purchasesSuccessful', [PurchasesController::class,'indexSuccessful']);
     Route::get('/purchasesUnsuccessful', [PurchasesController::class,'indexUnsuccessful']);
     Route::get('/allAuctions', [AuctionController::class, 'indexFiltered']);
