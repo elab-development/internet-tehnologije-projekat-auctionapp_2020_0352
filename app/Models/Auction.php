@@ -16,6 +16,7 @@ class Auction extends Model
         'category_id',
         'description',
         'start_price',
+        'current_bidder',
         'current_price',
         'image_path'
     ];
@@ -29,5 +30,5 @@ class Auction extends Model
     public function category(){
         return this->belongsTo(Category::class,'category_id');
     }
-    
+
 }
