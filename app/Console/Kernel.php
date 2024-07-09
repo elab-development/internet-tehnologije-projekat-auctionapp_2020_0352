@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('auctions:close')->everyFiveSeconds();
+        $schedule->command('auctions:close')->everyMinute();
     }
 
     /**

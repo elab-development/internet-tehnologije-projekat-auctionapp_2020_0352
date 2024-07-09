@@ -138,4 +138,16 @@ class AuctionController extends Controller
         $auction->delete();
         return response()->json('Post delete successfully');
     }
+
+    public function destroyById($id)
+    {
+        $auction = Auction::find($id);
+
+        if (!$auction) {
+            return response()->json(['error' => 'Auction not found'], 404);
+        }
+
+        $auction->delete();
+        return response()->json('Auction deleted successfully.');
+    }
 }
