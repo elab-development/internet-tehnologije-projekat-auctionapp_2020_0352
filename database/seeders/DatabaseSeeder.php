@@ -9,6 +9,8 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Auction;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +23,15 @@ class DatabaseSeeder extends Seeder
         Category::truncate();
         Auction::truncate();
         User::factory(10)->create();
+        User::factory()->create([
+            'name' => 'Ivan Jelisavcic',
+            'username' => 'ivekccc123',
+            'phone_number' => '0612567497',
+            'email' => 'ivanjelisavcic6@gmail.com',
+            'isAdmin' => true,
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
         Category::factory(5)->create();
         Auction::create([
             'product_name' => "Naziv Proizvoda 1", // Nasumično generirano ime proizvoda
