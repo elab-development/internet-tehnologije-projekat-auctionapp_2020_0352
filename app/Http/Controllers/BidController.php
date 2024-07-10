@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Auction;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use App\Jobs\ProcessBid;
 
 class BidController extends Controller
 {
@@ -23,11 +24,11 @@ class BidController extends Controller
         $auction = Auction::find($auctionId);
 
         $user = Auth::user();
-        $userBefore=User::find($auction->current_bidder);
+        $userBefore = User::find($auction->current_bidder);
         if (!$user) {
-            return response()->json(['message' => 'You have to be loged in to make a bid.'], 401);
+            return response()->json(['message' => 'You have to be logged in to make a bid.'], 401);
         }
-       if ($auction->user_id === $user->id) {
+        if ($auction->user_id === $user->id) {
             return response()->json(['message' => 'You cannot bid on your own auction.'], 400);
         }
         if ($auction->current_bidder === $user->id) {
@@ -35,20 +36,15 @@ class BidController extends Controller
         }
         $bidAmount = max($auction->current_price, $auction->start_price);
         if ($user->balance < $bidAmount) {
-            return response()->json(['message' => 'You dont have enough funds in your account'], 400);
+            return response()->json(['message' => 'You don\'t have enough funds in your account'], 400);
         }
-        if($userBefore){
-            $userBefore->balance+=($bidAmount/1.05);
-            $userBefore->save();
-        }
-        $auction->current_price = $bidAmount*1.05;
-        $auction->current_bidder = $user->id;
-        $auction->save();
-        $user->balance -= $bidAmount;
-        $user->save();
 
+       $auction->current_price = $bidAmount*1.05;
+       $auction->current_bidder = $user->id;
+       $auction->save();
+       $user->balance -= $bidAmount;
+       $user->save();
 
-        return response()->json(['message' => 'Bid made successfully','new_balance' => $user->balance]);
+        return response()->json(['message' => 'Bid made successfully', 'new_balance' => $user->balance - $bidAmount]);
     }
-
 }

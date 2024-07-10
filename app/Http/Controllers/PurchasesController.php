@@ -26,4 +26,5 @@ class PurchasesController extends Controller
         $boughtAuctions = Purchases::where('buyer_id', $userId)->get();
         return  response()->json($boughtAuctions);
     }
+
 }
