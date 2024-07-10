@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Purchases;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Auction;
 
 class PurchasesController extends Controller
 {

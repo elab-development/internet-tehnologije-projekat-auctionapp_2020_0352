@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\AuctionResource;
+use App\Models\Purchases;
 
 class AuctionController extends Controller
 {
@@ -139,6 +140,7 @@ class AuctionController extends Controller
         return response()->json('Post delete successfully');
     }
 
+
     public function destroyById($id)
     {
         $auction = Auction::find($id);
@@ -146,8 +148,16 @@ class AuctionController extends Controller
         if (!$auction) {
             return response()->json(['error' => 'Auction not found'], 404);
         }
+        Purchases::create([
+            'owner_id' => $auction->user_id,
+            'auction_id' => $auction->id,
+            'product_name' => $auction->product_name,
+            'buyer_id' => $auction->current_bidder,
+            'price' => $auction->current_price/1.05,
+        ]);
 
         $auction->delete();
         return response()->json('Auction deleted successfully.');
     }
+
 }
