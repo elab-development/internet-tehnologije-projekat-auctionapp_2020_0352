@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\AuctionResource;
 use App\Models\Purchases;
+use App\Models\User;
 
 class AuctionController extends Controller
 {
@@ -148,12 +149,24 @@ class AuctionController extends Controller
         if (!$auction) {
             return response()->json(['error' => 'Auction not found'], 404);
         }
+        if($auction->current_price!=$auction->start_price){
+            $sold_price=$auction->current_price/1.05;
+        }
+        else{
+            $sold_price=0;
+        }
+        $user = User::find($auction->user_id);
+        if ($user || $auction->current_price!=$auction->start_price) {
+            $user->balance += $sold_price;
+            $user->save();
+        }
+
         Purchases::create([
             'owner_id' => $auction->user_id,
             'auction_id' => $auction->id,
             'product_name' => $auction->product_name,
             'buyer_id' => $auction->current_bidder,
-            'price' => $auction->current_price/1.05,
+            'price' => $sold_price,
         ]);
 
         $auction->delete();

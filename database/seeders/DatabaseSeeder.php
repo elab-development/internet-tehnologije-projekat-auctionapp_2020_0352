@@ -32,6 +32,33 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'remember_token' => Str::random(10),
         ]);
+        User::factory()->create([
+            'name' => 'Marko Markovic',
+            'username' => 'markomarkovic123',
+            'phone_number' => '0612567497',
+            'email' => 'markomarkovic@gmail.com',
+            'isAdmin' => false,
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
+        User::factory()->create([
+            'name' => 'Petar Petrovic',
+            'username' => 'petarpetrovic123',
+            'phone_number' => '0612567497',
+            'email' => 'petarpetrovic@gmail.com',
+            'isAdmin' => false,
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
+        User::factory()->create([
+            'name' => 'Janko Jankovic',
+            'username' => 'jankojankovic123',
+            'phone_number' => '0612567497',
+            'email' => 'jankojankovic@gmail.com',
+            'isAdmin' => false,
+            'password' => Hash::make('12345678'),
+            'remember_token' => Str::random(10),
+        ]);
         Category::factory(5)->create();
         Auction::create([
             'product_name' => "Naziv Proizvoda 1", // Nasumično generirano ime proizvoda
