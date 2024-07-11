@@ -31,6 +31,7 @@ class ProcessBid implements ShouldQueue
      */
     public function handle(): void
     {
+        \DB::transaction(function () {
         $auction = Auction::lockForUpdate()->find($this->auctionId);
         $user = User::lockForUpdate()->find($this->userId);
 
@@ -54,5 +55,6 @@ class ProcessBid implements ShouldQueue
 
         $user->balance -= $this->bidAmount;
         $user->save();
+    });
     }
 }
