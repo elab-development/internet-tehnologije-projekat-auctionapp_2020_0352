@@ -31,7 +31,8 @@ class ProcessBid implements ShouldQueue
      */
     public function handle(): void
     {
-
+        $auction = Auction::lockForUpdate()->find($this->auctionId);
+        $user = User::lockForUpdate()->find($this->userId);
 
         if (!$user || !$auction) {
             return;

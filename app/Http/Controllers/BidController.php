@@ -28,8 +28,7 @@ class BidController extends Controller
         if ($auction->is_locked || $user->is_locked) {
             return response()->json(['message' => 'Auction is locked.'], 401);
         }
-        $auction = Auction::lockForUpdate()->find($auctionId);
-        $user = User::lockForUpdate()->find($user->id);
+
         if (!$user) {
             return response()->json(['message' => 'You have to be logged in to make a bid.'], 401);
         }
