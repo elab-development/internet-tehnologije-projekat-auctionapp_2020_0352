@@ -38,13 +38,17 @@ class BidController extends Controller
         if ($user->balance < $bidAmount) {
             return response()->json(['message' => 'You don\'t have enough funds in your account'], 400);
         }
+        if($userBefore){
+            $userBefore->balance+=($bidAmount/1.05);
+            $userBefore->save();
+        }
+        $auction->current_price=$bidAmount*1.05;
+        $auction->current_bidder=$user->id;
+        $auction->save();
+        $user->balance-=$bidAmount;
+        $user->save();
 
-       $auction->current_price = $bidAmount*1.05;
-       $auction->current_bidder = $user->id;
-       $auction->save();
-       $user->balance -= $bidAmount;
-       $user->save();
 
-        return response()->json(['message' => 'Bid made successfully', 'new_balance' => $user->balance - $bidAmount]);
+        return response()->json(['message' => 'Bid made successfully','new_balance'=>$user->balance]);
     }
 }
