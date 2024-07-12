@@ -25,26 +25,18 @@ class ProcessBid implements ShouldQueue
         $this->userId = $userId;
         $this->bidAmount = $bidAmount;
     }
-
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
         \DB::transaction(function () {
         $auction = Auction::lockForUpdate()->find($this->auctionId);
         $user = User::lockForUpdate()->find($this->userId);
-
         if (!$user || !$auction) {
             return;
         }
-
         $userBefore = User::find($auction->current_bidder);
-
         if ($auction->user_id === $user->id || $auction->current_bidder === $user->id || $user->balance < $this->bidAmount) {
             return;
-        }
-
+            }
         if($userBefore){
             $userBefore->balance+=($this->bidAmount/1.05);
             $userBefore->save();
@@ -52,7 +44,6 @@ class ProcessBid implements ShouldQueue
         $auction->current_price = $this->bidAmount * 1.05;
         $auction->current_bidder = $user->id;
         $auction->save();
-
         $user->balance -= $this->bidAmount;
         $user->save();
     });
